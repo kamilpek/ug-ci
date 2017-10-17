@@ -1,4 +1,6 @@
 #Lab1/Zad3
+library(genalg)
+library(ggplot2)
 #b
 dataset <- data.frame(
   item = c("pocketknife", "beans", "potatoes", "unions",
