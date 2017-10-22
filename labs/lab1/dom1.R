@@ -26,4 +26,4 @@ fitness = function(substitution, phi){
   return(counter)
 }
 
-counter = fitness(c(1,0,1,1), phi2)
+counter = fitness(c(1,1,1,0,0,0,1), phi2)
