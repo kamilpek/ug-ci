@@ -1,2 +1,4 @@
 #Lab2/Zad1
-iris <- as.matrix(iris)
+iris.original <- data.matrix(iris)
+cov(iris.original)
+
