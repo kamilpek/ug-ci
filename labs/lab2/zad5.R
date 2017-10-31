@@ -1,6 +1,4 @@
 #Lab2/Zad5
-library(ggvis)
-#
 iris.numeric <- data.matrix(iris[,-5])
 colnames(iris.numeric) <- NULL
 iris.log <- log(iris.numeric)
@@ -42,6 +40,6 @@ recognizeIris <- function(SeplLength,SepalWidth,PetalLength,PetalWidth) {
   points(PC1, PC2)
 }
 
-recognizeIris(6.9, 3.2, 5.6, 2.2) # virinica
-#recognizeIris(6.0, 2.6, 4.4, 1.6) # versicolor lub virinica
-#recognizeIris(4.8, 3.6, 1.4, 0.2) # setosa
+recognizeIris(6.9, 3.2, 5.6, 2.2) # virginica
+recognizeIris(6.0, 2.6, 4.4, 1.6) # versicolor lub virginica
+recognizeIris(4.8, 3.6, 1.4, 0.2) # setosa
