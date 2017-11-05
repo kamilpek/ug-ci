@@ -1,8 +1,8 @@
 #Lab2/Zad5/Wer2
 iris.numeric <- data.matrix(iris[,-5])
 colnames(iris.numeric) <- NULL
-iris.pca.data <- predict(prcomp(scale(log(iris.numeric))))
-iris.pca.data <- iris.pca.data[,-3]
+iris.pca <- prcomp(scale(log(iris.numeric)))
+iris.pca.data <- predict(iris.pca)[,-3]
 Species <- as.matrix(iris[,5])
 cols <- c('red', 'blue', 'yellow4')
 #
@@ -21,7 +21,7 @@ recognizeIris <- function(SeplLength,SepalWidth,PetalLength,PetalWidth) {
   PC1 = iris.pca[2]$rotation[,1] %*% param
   PC2 = iris.pca[2]$rotation[,2] %*% param
   
-  points(PC1, PC2, pch = 23, col='lightgreen', bg='lightgreen')
+  points(PC1, PC2, pch = 21, col='black', bg='black')
 }
 
 recognizeIris(6.9, 3.2, 5.6, 2.2) # virginica
