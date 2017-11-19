@@ -1,0 +1,31 @@
+if (is.finite(Petal.Width) & Petal.Width <= 0) {
+    Petal.Width <- NA
+}
+if (!is.finite(Petal.Width)) {
+    Petal.Width <- NA
+}
+
+if (is.finite(Petal.Length) & Petal.Length <= 0) {
+    Petal.Length <- NA
+}
+if (is.finite(Petal.Length) & (!is.finite(Petal.Width) | 2 * Petal.Width > Petal.Length)) {
+    Petal.Length <- NA
+}
+
+if (is.finite(Sepal.Width) & Sepal.Width <= 0) {
+    Sepal.Width <- NA
+}
+
+if (is.finite(Sepal.Length) & Sepal.Length <= 0) {
+    Sepal.Length <- NA
+}
+if (is.finite(Sepal.Length) & Sepal.Length > 30) {
+    Sepal.Length <- NA
+}
+if (is.finite(Sepal.Length) & (!is.finite(Petal.Length) | Petal.Length >= Sepal.Length)) {
+    Sepal.Length <- NA
+}
+
+if (Species != "setosa" & Species != "versicolor" & Species != "virginica") {
+    Species <- NA
+}
