@@ -21,7 +21,7 @@ recognizeIris <- function(SeplLength,SepalWidth,PetalLength,PetalWidth) {
   PC1 = iris.pca[2]$rotation[,1] %*% param
   PC2 = iris.pca[2]$rotation[,2] %*% param
   
-  points(PC1, PC2, pch = 21, col='black', bg='black')
+    points(PC1, PC2, pch = 21, col='black', bg='black')
 }
 
 recognizeIris(6.9, 3.2, 5.6, 2.2) # virginica
