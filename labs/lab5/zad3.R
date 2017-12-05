@@ -7,16 +7,33 @@ iris.preproc <- scale(iris.log)
 iris.pca <- prcomp(iris.preproc)
 iris.pca.data <- predict(iris.pca)[,1:2]
 #
-k <- 3
-max_x <- max(iris.pca.data[,1])
-min_x <- min(iris.pca.data[,1])
-max_y <- max(iris.pca.data[,2])
-min_y <- min(iris.pca.data[,2])
-ran_1_x <- sample(min_x:max_x)[sample(1:6)[1]]
-ran_1_y <- sample(min_y:max_y)[sample(1:6)[1]]
-ran_2_x <- sample(min_x:max_x)[sample(1:6)[1]]
-ran_2_y <- sample(min_y:max_y)[sample(1:6)[1]]
-rans <- matrix(c(ran_1_x, ran_1_y, ran_2_x, ran_2_y),nrow=2,ncol=2)
+mykmeans <- function(k, i, irises){
+  random_points <-list()
+  for(x in 1:k){
+    ran_x <- irises[sample(nrow(irises), 1), 1]
+    ran_y <- irises[sample(nrow(irises), 1), 2]
+    random_points <- c(random_points, ran_x, ran_y)
+  }
+  centroids <- matrix(c(random_points), ncol=2)
+  cluster <- c()
+  for(j in 1:i){
+    for(x in 1:nrow(irises)){
+      neighbours <- c()  
+      for(y in 1:k) neighbours[[y]] <- dist(rbind(irises[x,], centroids[y,]), method="euclidean")
+      cluster[[x]] <- grep(min(neighbours), neighbours)
+    }
+    iris.clustering <- cbind(irises, cluster)
+    iris.clustering <- split(data.frame(iris.clustering), iris.clustering[,3])
+    centroids <- c()
+    for(x in 1:k){
+      centroid_x <- colMeans(as.data.frame(iris.clustering[x])[,1:2])[1]
+      centroid_y <- colMeans(as.data.frame(iris.clustering[x])[,1:2])[2]
+      centroids <- c(centroids, centroid_x, centroid_y)
+    }
+    centroids <- matrix(c(centroids), ncol=2)
+  }
+  plot(irises, col=cluster)
+  points(centroids, pch=4, cex=2, col=2)
+}
 #
-plot(iris.pca.data)
-points(rans, pch=4, cex=2, col=2)
+mykmeans(3, 100, iris.pca.data)
