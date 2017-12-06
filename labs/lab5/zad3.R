@@ -31,9 +31,13 @@ mykmeans <- function(k, i, irises){
       centroids <- c(centroids, centroid_x, centroid_y)
     }
     centroids <- matrix(c(centroids), ncol=2)
+    png(filename = paste("kmeans_my/iteration_", j, ".png", sep=""))
+    plot(irises, col=cluster, main=paste("iteration_", j, sep=""))
+    points(centroids, pch=4, cex=2, col=2)
+    dev.off()
   }
-  plot(irises, col=cluster)
-  points(centroids, pch=4, cex=2, col=2)
+  try(system("convert -delay 100 -loop 0 $(ls kmeans_my/*.png | sort -V) kmeans_my/animation.gif"))
+  try(system("rm kmeans_my/*.png"))
 }
 #
-mykmeans(3, 100, iris.pca.data)
+mykmeans(3, 10, iris.pca.data)
