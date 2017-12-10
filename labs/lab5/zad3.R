@@ -36,6 +36,8 @@ mykmeans <- function(k, i, irises){
     points(centroids, pch=4, cex=2, col=2)
     dev.off()
   }
+  plot(irises, col=cluster, main="My Kmeans")
+  points(centroids, pch=4, cex=2, col=2)
   try(system("convert -delay 100 -loop 0 $(ls kmeans_my/*.png | sort -V) kmeans_my/animation.gif"))
   try(system("rm kmeans_my/*.png"))
 }
