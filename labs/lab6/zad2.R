@@ -15,6 +15,9 @@ split_species <- function(iris) {
   }
   return (iris[,-5])
 }
+maxidx <- function(arr) {
+  return(which(arr == max(arr)))
+}
 #
 ind <- sample(2, nrow(iris), replace=TRUE, prob=c(0.67, 0.33))
 iris.norm <- as.data.frame(lapply(iris[1:4], normalize))
@@ -26,10 +29,17 @@ iris.norm <- cbind(iris.norm, species)
 iris.norm <- split_species(iris.norm)
 iris.training <- iris.norm[ind==1, 1:7]
 iris.test <- iris.norm[ind==2, 1:7]
+iris.training.labels <- iris[ind==1, 5]
+iris.test.labels <- iris[ind==2, 5]
 #
 iris.nn <- neuralnet(setosa + versicolor + virginica ~ 
                        Sepal.Length + Sepal.Width + Petal.Length + Petal.Width, 
-                     data=iris.norm, hidden=4)
-#plot(iris.nn, main="Iris Neural Network")
-iris.predict <- compute(iris.nn, iris.test[1:4], rep=1)
-iris.cm <- confusionMatrix(iris.predict, womens[,9])
+                     data=iris.training, hidden=8)
+#
+iris.predict <- compute(iris.nn, iris.test[,1:4])$net.result
+idx <- apply(iris.predict, c(1), maxidx)
+iris.predict <- c('setosa', 'versicolor', 'virginica')[idx]
+iris.cm <- confusionMatrix(iris.predict, iris.test.labels)
+#
+print(iris.cm$table)
+print(iris.cm$overall['Accuracy'])
