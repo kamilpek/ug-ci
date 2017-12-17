@@ -1,6 +1,9 @@
 #Lab6/Zad3
 require(neuralnet)
 library(caret)
+library(class)
+library(e1071)
+library(party)
 #
 normalize <- function(x)
 {
