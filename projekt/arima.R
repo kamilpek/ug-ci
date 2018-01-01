@@ -1,16 +1,11 @@
-# arima
+# arima monthly
 #
-library(ggplot2)
 library(forecast)
 library(tseries)
 #
 dji.prices <- read.csv(file.path('data', 'DJI.csv'), stringsAsFactors = FALSE)
 #
 dji.ts <- ts(rev(dji.prices[,5]), start=c(2001,1), end=(c(2020,1)), freq=12)
-dji.ts.long <- ts(rev(dji.prices[,5]), start=c(2001,1), freq=12)
-#plot(dji.ts)
-#plot(dji.ts.long)
-#
 dji.data <- data.frame(closing = dji.ts, lclosing = log(dji.ts))
 dji.stl <- stl(dji.data$closing, s.window = "periodic")
 dji.f <- forecast(dji.stl, method="arima", h=24, level=95)
