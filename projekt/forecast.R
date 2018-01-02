@@ -4,6 +4,8 @@ library(forecast)
 library(tseries)
 library(lubridate)
 # dane
+download.file("https://stooq.com/q/d/l/?s=^dji&i=d", 
+              file.path('data', 'DJI.csv'), quiet = FALSE, mode = "w", cacheOK = TRUE)
 dji.prices <- read.csv(file.path('data', 'DJI.csv'), stringsAsFactors = FALSE)
 dji.prices <- transform(dji.prices, Date = ymd(Date))
 dji <- with(dji.prices, rev(Close))
@@ -21,3 +23,4 @@ print(sprintf("Forecast for day next to: %s", as.character(tail(dji.prices$Date,
 print(sprintf("Arima: %s", as.character(dji.arima.f$mean[1])))
 print(sprintf("Neural Network: %s", as.character(dji.nnet.f$mean[1])))
 #
+
