@@ -11,6 +11,7 @@ dji.prices <- transform(dji.prices, Date = ymd(Date))
 dji <- with(dji.prices, rev(Close))
 dates <- with(dji.prices, rev(Date))
 dji.msts <- msts(rev(dji), seasonal.periods=c(7,365.25), start=2010, end=2018)
+try(system("rm data/DJI.csv"))
 # arima
 dji.arima.data <- data.frame(closing = dji.msts, lclosing = log(dji.msts))
 dji.arima.stl <- stl(dji.arima.data$closing, s.window = "periodic")
