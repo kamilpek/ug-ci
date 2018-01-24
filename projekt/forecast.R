@@ -1,24 +1,21 @@
 # forecast
 # biblioteki
-suppressMessages(library(forecast))
-suppressMessages(library(tseries))
-suppressMessages(library(RPostgreSQL))
-suppressMessages(library(lubridate))
+suppressMessages(library("forecast"))
+suppressMessages(library("tseries"))
+suppressMessages(library("RPostgreSQL"))
+suppressMessages(library("lubridate"))
 # baza
-# drv <- dbDriver("PostgreSQL")
-# con <- dbConnect(drv, user= "majster", password="System32", dbname = "broker_development")
-# dji.prices <- dbGetQuery(con, "select * from dji_prices")
-# dbDisconnect(con)
-# csv
-download.file("https://stooq.com/q/d/l/?s=^dji&i=d", 
-              file.path('data', 'DJI.csv'), quiet = FALSE, mode = "w", cacheOK = TRUE)
-dji.prices <- read.csv(file.path('data', 'DJI.csv'), stringsAsFactors = FALSE)
+drv <- dbDriver("PostgreSQL")
+#con <- dbConnect(drv, user= "majster", password="System32", dbname = "broker_development")
+con <- dbConnect(drv, dbname = "broker_production")
+dji.prices <- dbGetQuery(con, "select * from dji_prices")
+dbdisc <- dbDisconnect(con)
 # dane
-dji.prices <- transform(dji.prices, Date = ymd(Date))
-dji <- with(dji.prices, rev(Close))
-dates <- with(dji.prices, rev(Date))
-dji.msts <- msts(rev(dji), seasonal.periods=c(7,365.25), start=2010, end=2018)
-try(system("rm data/DJI.csv"))
+dji.prices <- transform(dji.prices, Date = ymd(date))
+dji.prices <- tail(dji.prices, n=1100)
+dji <- with(dji.prices, rev(close))
+dates <- with(dji.prices, rev(date))
+dji.msts <- msts(rev(dji), seasonal.periods=c(7,365.25), start=2016, end=2018)
 # arima
 dji.arima.data <- data.frame(closing = dji.msts, lclosing = log(dji.msts))
 dji.arima.stl <- stl(dji.arima.data$closing, s.window = "periodic")

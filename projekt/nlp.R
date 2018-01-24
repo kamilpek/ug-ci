@@ -27,13 +27,13 @@ cnbc.links <- bind_rows(lapply(xml_attrs(cnbc.heads), function(x) data.frame(as.
 cnbc.abstracts <- list()
 for(i in 1:length(cnbc.links[,1])){
   cnbc.news <- read_html(cnbc.links[i,])
-  cnbc.abstracts <- c(cnbc.abstracts, html_text(html_nodes(cnbc.news, "div.story-top div#article_deck span")))
+  cnbc.abstracts <- c(cnbc.abstracts, html_text(html_nodes(cnbc.news, "div.story-top div#article_deck li")))
 }
 cnbc.corpus <- VCorpus(VectorSource(cnbc.abstracts))
 cnbc.sent <- analyzeSentiment(cnbc.corpus)
 # results
-if(mean(mwatch.sent$PositivityGI) > mean(mwatch.sent$NegativityGI) && 
-   mean(cnbc.sent$PositivityGI) > mean(cnbc.sent$NegativityGI)){
+if((mean(mwatch.sent$PositivityGI) > mean(mwatch.sent$NegativityGI)) &&
+   (mean(cnbc.sent$PositivityGI) > mean(cnbc.sent$NegativityGI)) ){
   result <- "positive"
 } else {
   result <- "negative"
